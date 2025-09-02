@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Portfolio</title>
+    <style>
+        :root {
+            --bg-black-100: #f5f5f5;
+            --text-black-900: #333;
+            --text-black-700: #666;
+            --skin-color: #007bff;
+            --hover-color: #0056b3;
+            --bg-black-50: #ccc;
+            --box-shadow-color: rgba(0, 0, 0, 0.1);
+            --h3-font-size: 1.5rem;
+            --small-font-size: 0.9rem;
+        }
+
+        .work-grid-container {
+            padding-top: 1rem;
+            display: flex;
+            gap: 2rem;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            width: 750px;
+            margin-left: auto;
+            margin-right: auto;
+            overflow-x: auto;
+        }
+
+        .work-grid-container.work-center-cards {
+            width: auto;
+            overflow-x: hidden;
+            justify-content: center;
+        }
+
+        .work-grid-container .work-card {
+            scroll-snap-align: start;
+            width: 300px;
+            flex-shrink: 0;
+        }
+
+        .work-grid-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .work-grid-container::-webkit-scrollbar-thumb {
+            background: var(--skin-color);
+            border-radius: 5px;
+        }
+
+        .work-grid-container::-webkit-scrollbar-track {
+            background: var(--bg-black-50);
+        }
+
+        .work-filter-dropdown {
+            display: none;
+        }
+
+        .work-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .work-filter-item {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            background: var(--bg-black-100);
+            color: var(--text-black-900);
+        }
+
+        .work-filter-item.work-active-work {
+            background: var(--skin-color);
+            color: #ffffff;
+        }
+
+        .work-card {
+            background: var(--bg-black-100);
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px var(--box-shadow-color);
+            width: 300px;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .work-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://via.placeholder.com/300?text=Background');
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .work-img {
+            width: 280px;
+            height: 200px;
+            border-radius: 5px;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .work-title {
+            font-size: var(--h3-font-size);
+            color: var(--text-black-900);
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .work-points {
+            margin-bottom: 1rem;
+        }
+
+        .work-points li {
+            font-size: var(--small-font-size);
+            color: var(--text-black-700);
+        }
+
+        .work-edu-btn {
+            background: var(--skin-color);
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: var(--small-font-size);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .work-edu-btn:hover {
+            background: var(--hover-color);
+        }
+
+        .work-nav {
+            display: none;
+        }
+
+        .work-scroll-nav {
+            display: none;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .work-scroll-btn {
+            background: var(--skin-color);
+            color: #ffffff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .work-scroll-btn:hover {
+            background: var(--hover-color);
+        }
+
+        .work-scroll-btn:disabled {
+            background: var(--bg-black-50);
+            cursor: not-allowed;
+        }
+
+        .work-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .work-modal-content {
+            background: var(--bg-black-100);
+            max-width: 800px;
+            width: 100%;
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+            box-shadow: 0 5px 15px var(--box-shadow-color);
+            overflow: hidden;
+        }
+
+        .work-modal-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://via.placeholder.com/800?text=Modal+Background');
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .work-modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            color: var(--text-black-900);
+            cursor: pointer;
+        }
+
+        .work-modal-title {
+            font-size: 1.5rem;
+            color: var(--text-black-900);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .work-modal-container-1 {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .work-modal-image {
+            width: 300px;
+            height: 200px;
+            border-radius: 5px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .work-modal-image:hover {
+            transform: scale(1.05);
+        }
+
+        .work-modal-description {
+            flex: 1;
+        }
+
+        .work-modal-description p {
+            font-size: var(--small-font-size);
+            color: var(--text-black-700);
+            margin-bottom: 10px;
+        }
+
+        .work-modal-description ul {
+            list-style: disc;
+            padding-left: 20px;
+        }
+
+        .work-modal-description li {
+            font-size: var(--small-font-size);
+            color: var(--text-black-700);
+            margin-bottom: 5px;
+        }
+
+        .work-modal-container-2 {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 5px;
+        }
+
+        .work-slideshow {
+            display: flex;
+            width: 300%;
+            height: 100%;
+            animation: work-slide 9s infinite;
+        }
+
+        .work-slideshow img {
+            width: 33.33%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        @keyframes work-slide {
+            0% {
+                transform: translateX(0);
+            }
+
+            33.33% {
+                transform: translateX(-33.33%);
+            }
+
+            66.66% {
+                transform: translateX(-66.66%);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .work-modal-buttons {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .work-modal-btn {
+            background: var(--skin-color);
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: var(--small-font-size);
+            text-align: center;
+        }
+
+        .work-modal-btn:hover {
+            background: var(--hover-color);
+        }
+
+        @media (max-width: 768px) {
+            .work-filter-dropdown {
+                display: block;
+                text-align: center;
+                margin-bottom: 2rem;
+                width: 50%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .work-filter-select {
+                width: 100%;
+                padding: 0.5rem;
+                font-size: 1rem;
+                border-radius: 5px;
+                border: 1px solid var(--bg-black-50);
+                background: var(--bg-black-100);
+                color: var(--text-black-900);
+            }
+
+            .work-filters {
+                display: none;
+            }
+
+            .work-grid-container {
+                width: 362px;
+                max-width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+                display: flex;
+                overflow-x: auto;
+                gap: 2rem;
+                padding-bottom: 1rem;
+                scroll-snap-type: x mandatory;
+                scroll-behavior: smooth;
+            }
+
+            .work-grid-container.work-center-cards {
+                width: auto;
+                overflow-x: hidden;
+                justify-content: center;
+            }
+
+            .work-grid-container .work-card {
+                scroll-snap-align: start;
+                width: 300px;
+                flex-shrink: 0;
+            }
+
+            .work-grid-container::-webkit-scrollbar {
+                height: 8px;
+            }
+
+            .work-grid-container::-webkit-scrollbar-thumb {
+                background: var(--skin-color);
+                border-radius: 5px;
+            }
+
+            .work-grid-container::-webkit-scrollbar-track {
+                background: var(--bg-black-50);
+            }
+
+            .work-card {
+                display: block;
+            }
+
+            .work-scroll-nav {
+                display: flex;
+            }
+
+            .work-modal-content {
+                padding: 15px;
+            }
+
+            .work-modal-container-1 {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .work-modal-image {
+                width: 100%;
+                max-width: 300px;
+                height: 200px;
+            }
+
+            .work-modal-description {
+                text-align: center;
+            }
+
+            .work-modal-description ul {
+                padding-left: 0;
+            }
+
+            .work-modal-container-2 {
+                height: 150px;
+            }
+
+            .work-slideshow img {
+                height: 150px;
+            }
+
+            .work-modal-buttons {
+                top: 70%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="work-section work-active-section" id="work-section">
+        <div class="row">
+            <div class="section-title work-padd-15">
+                <h2>My Work Portfolio</h2>
+            </div>
+        </div>
+        <div class="work-filter-dropdown">
+            <select class="work-filter-select" onchange="workFilterCards(this.value)">
+                <option value="All">All</option>
+                <option value="Web" selected>Web DEV</option>
+                <option value="Chemical">Chemical Engineering</option>
+                <option value="Quant">Quant Analyst</option>
+                <option value="Data">Data Analyst</option>
+            </select>
+        </div>
+        <div class="work-filters">
+            <span class="work-filter-item work-active-work" data-filter="Web">Web DEV</span>
+            <span class="work-filter-item" data-filter="Chemical">Chemical Engineering</span>
+            <span class="work-filter-item" data-filter="Quant">Quant Analyst</span>
+            <span class="work-filter-item" data-filter="Data">Data Analyst</span>
+        </div>
+        <div class="work-grid-container work-container">
+            <div class="work-card work-mix-Web">
+                <img src="asset/img/Experience-Images/IVL/11.PNG" alt="Web Design 1" class="work-img">
+                <h3 class="work-title">Web Design 1</h3>
+                <ul class="work-points">
+                    <li>Designed responsive websites</li>
+                    <li>Used modern frameworks</li>
+                    <li>Optimized user experience</li>
+                </ul>
+                <div class="work-edu-item-footer">
+                    <button class="work-edu-btn" onclick="workOpenModal('work-modal-web-design')">Click Here to know
+                        more</button>
+                </div>
+            </div>
+            <div class="work-card work-mix-Web">
+                <img src="asset/img/Experience-Images/IVL/11.PNG" alt="Web Design 2" class="work-img">
+                <h3 class="work-title">Web Design 2</h3>
+                <ul class="work-points">
+                    <li>Developed e-commerce platforms</li>
+                    <li>Integrated APIs</li>
+                    <li>Enhanced accessibility</li>
+                </ul>
+                <div class="work-edu-item-footer">
+                    <button class="work-edu-btn" onclick="workOpenModal('work-modal-web-design-2')">Click Here to know
+                        more</button>
+                </div>
+            </div>
+            <div class="work-card work-mix-Web">
+                <img src="asset/img/Experience-Images/IVL/11.PNG" alt="Web Design 3" class="work-img">
+                <h3 class="work-title">Web Design 3</h3>
+                <ul class="work-points">
+                    <li>Built SPA applications</li>
+                    <li>Used React framework</li>
+                    <li>Improved load times</li>
+                </ul>
+                <div class="work-edu-item-footer">
+                    <button class="work-edu-btn" onclick="workOpenModal('work-modal-web-design-3')">Click Here to know
+                        more</button>
+                </div>
+            </div>
+            <div class="work-card work-mix-Chemical">
+                <img src="https://via.placeholder.com/280x200" alt="Major Work Project" class="work-img">
+                <h3 class="work-title">Major Work Project</h3>
+                <ul class="work-points">
+                    <li>Chemical process optimization</li>
+                    <li>Lab-based experiments</li>
+                    <li>Data-driven solutions</li>
+                </ul>
+                <div class="work-edu-item-footer">
+                    <button class="work-edu-btn" onclick="workOpenModal('work-modal-major-work-project')">Click Here to
+                        know more</button>
+                </div>
+            </div>
+            <div class="work-card work-mix-Chemical">
+                <img src="https://via.placeholder.com/280x200" alt="Major Work Project 2" class="work-img">
+                <h3 class="work-title">Major Work Project 2</h3>
+                <ul class="work-points">
+                    <li>Process simulation</li>
+                    <li>Material analysis</li>
+                    <li>Efficiency improvement</li>
+                </ul>
+                <div class="work-edu-item-footer">
+                    <button class="work-edu-btn" onclick="workOpenModal('work-modal-major-work-project-2')">Click Here
+                        to know more</button>
+                </div>
+            </div>
+            <div class="work-card work-mix-Chemical">
+                <img src="https://via.placeholder.com/280x200" alt="Major Work Project 2" class="work-img">
+                <h3 class="work-title">Major Work Project 2</h3>
+                <ul class="work-points">
+                    <li>Process simulation</li>
+                    <li>Material analysis</li>
+                    <li>Efficiency improvement</li>
+                </ul>
+                <div class="work-edu-item-footer">
+                    <button class="work-edu-btn" onclick="workOpenModal('work-modal-major-work-project-2')">Click Here
+                        to know more</button>
+                </div>
+            </div>
+            <div class="work-card work-mix-Quant">
+                <img src="https://via.placeholder.com/280x200" alt="Business Analyst" class="work-img">
+                <h3 class="work-title">Business Analyst</h3>
+                <ul class="work-points">
+                    <li>Financial modeling</li>
+                    <li>Market analysis</li>
+                    <li>Risk assessment</li>
+                </ul>
+                <div class="work-edu-item-footer">
+                    <button class="work-edu-btn" onclick="workOpenModal('work-modal-business-analyst')">Click Here to
+                        know more</button>
+                </div>
+            </div>
+            <div class="work-card work-mix-Quant">
+                <img src="https://via.placeholder.com/280x200" alt="Business Analyst 2" class="work-img">
+                <h3 class="work-title">Business Analyst 2</h3>
+                <ul class="work-points">
+                    <li>Data-driven strategies</li>
+                    <li>Stakeholder engagement</li>
+                    <li>Performance metrics</li>
+                </ul>
+                <div class="work-edu-item-footer">
+                    <button class="work-edu-btn" onclick="workOpenModal('work-modal-business-analyst-2')">Click Here to
+                        know more</button>
+                </div>
+            </div>
+            <div class="work-card work-mix-Data">
+                <img src="https://via.placeholder.com/280x200" alt="Data Scientist" class="work-img">
+                <h3 class="work-title">Data Scientist</h3>
+                <ul class="work-points">
+                    <li>Machine learning models</li>
+                    <li>Data visualization</li>
+                    <li>Statistical analysis</li>
+                </ul>
+                <div class="work-edu-item-footer">
+                    <button class="work-edu-btn" onclick="workOpenModal('work-modal-data-scientist')">Click Here to know
+                        more</button>
+                </div>
+            </div>
+            <div class="work-card work-mix-Data">
+                <img src="https://via.placeholder.com/280x200" alt="Java Work Projects" class="work-img">
+                <h3 class="work-title">Java Work Projects</h3>
+                <ul class="work-points">
+                    <li>Developed Java applications</li>
+                    <li>Backend integration</li>
+                    <li>Code optimization</li>
+                </ul>
+                <div class="work-edu-item-footer">
+                    <button class="work-edu-btn" onclick="workOpenModal('work-modal-java-work-projects')">Click Here to
+                        know more</button>
+                </div>
+            </div>
+        </div>
+        <div class="work-scroll-nav">
+            <button class="work-scroll-btn" onclick="workScrollCards('left')">←</button>
+            <button class="work-scroll-btn" onclick="workScrollCards('right')">→</button>
+        </div>
+
+        <!-- Work Modals -->
+        <div class="work-modal" id="work-modal-web-design">
+            <div class="work-modal-content">
+                <span class="work-modal-close" onclick="workCloseModal('work-modal-web-design')">×</span>
+                <h2 class="work-modal-title">Web Design 1</h2>
+                <div class="work-modal-container-1">
+                    <img src="asset/img/Skills-Images/Analyst/EXCEL.PNG" alt="Web Design 1" class="work-modal-image">
+                    <div class="work-modal-description">
+                        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut
+                            labore et dolore.</p>
+                        <ul>
+                            <li>Responsive design implementation</li>
+                            <li>Modern UI/UX frameworks</li>
+                            <li>Performance optimization</li>
+                            <li>Cross-browser compatibility</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="work-modal-container-2">
+                    <div class="work-slideshow">
+                        <img src="https://via.placeholder.com/800x200/FF0000" alt="Work Slide 1">
+                        <img src="https://via.placeholder.com/800x200/00FF00" alt="Work Slide 2">
+                        <img src="https://via.placeholder.com/800x200/0000FF" alt="Work Slide 3">
+                    </div>
+                    <div class="work-modal-buttons">
+                        <a href="https://github.com/web-design-live" target="_blank" class="work-modal-btn">Live
+                            Preview</a>
+                        <a href="https://github.com/web-design-source" target="_blank" class="work-modal-btn">View
+                            Source Code</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="work-modal" id="work-modal-web-design-2">
+            <div class="work-modal-content">
+                <span class="work-modal-close" onclick="workCloseModal('work-modal-web-design-2')">×</span>
+                <h2 class="work-modal-title">Web Design 2</h2>
+                <div class="work-modal-container-1">
+                    <img src="asset/img/Skills-Images/Analyst/EXCEL.PNG" alt="Web Design 2" class="work-modal-image">
+                    <div class="work-modal-description">
+                        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut
+                            labore et dolore.</p>
+                        <ul>
+                            <li>E-commerce platform development</li>
+                            <li>API integrations</li>
+                            <li>Accessibility enhancements</li>
+                            <li>Payment gateway setup</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="work-modal-container-2">
+                    <div class="work-slideshow">
+                        <img src="https://via.placeholder.com/800x200/FF0000" alt="Work Slide 1">
+                        <img src="https://via.placeholder.com/800x200/00FF00" alt="Work Slide 2">
+                        <img src="https://via.placeholder.com/800x200/0000FF" alt="Work Slide 3">
+                    </div>
+                    <div class="work-modal-buttons">
+                        <a href="https://github.com/web-design-2-live" target="_blank" class="work-modal-btn">Live
+                            Preview</a>
+                        <a href="https://github.com/web-design-2-source" target="_blank" class="work-modal-btn">View
+                            Source Code</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="work-modal" id="work-modal-web-design-3">
+            <div class="work-modal-content">
+                <span class="work-modal-close" onclick="workCloseModal('work-modal-web-design-3')">×</span>
+                <h2 class="work-modal-title">Web Design 3</h2>
+                <div class="work-modal-container-1">
+                    <img src="asset/img/Skills-Images/Analyst/EXCEL.PNG" alt="Web Design 3" class="work-modal-image">
+                    <div class="work-modal-description">
+                        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut
+                            labore et dolore.</p>
+                        <ul>
+                            <li>Single Page Applications</li>
+                            <li>React framework usage</li>
+                            <li>Optimized load times</li>
+                            <li>State management</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="work-modal-container-2">
+                    <div class="work-slideshow">
+                        <img src="https://via.placeholder.com/800x200/FF0000" alt="Work Slide 1">
+                        <img src="https://via.placeholder.com/800x200/00FF00" alt="Work Slide 2">
+                        <img src="https://via.placeholder.com/800x200/0000FF" alt="Work Slide 3">
+                    </div>
+                    <div class="work-modal-buttons">
+                        <a href="https://github.com/web-design-3-live" target="_blank" class="work-modal-btn">Live
+                            Preview</a>
+                        <a href="https://github.com/web-design-3-source" target="_blank" class="work-modal-btn">View
+                            Source Code</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="work-modal" id="work-modal-brand-building">
+            <div class="work-modal-content">
+                <span class="work-modal-close" onclick="workCloseModal('work-modal-brand-building')">×</span>
+                <h2 class="work-modal-title">Brand Building</h2>
+                <div class="work-modal-container-1">
+                    <img src="https://via.placeholder.com/280x200" alt="Brand Building" class="work-modal-image">
+                    <div class="work-modal-description">
+                        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut
+                            labore et dolore.</p>
+                        <ul>
+                            <li>Brand identity creation</li>
+                            <li>Social media strategy</li>
+                            <li>Visual content design</li>
+                            <li>Market positioning</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="work-modal-container-2">
+                    <div class="work-slideshow">
+                        <img src="https://via.placeholder.com/800x200/FF0000" alt="Work Slide 1">
+                        <img src="https://via.placeholder.com/800x200/00FF00" alt="Work Slide 2">
+                        <img src="https://via.placeholder.com/800x200/0000FF" alt="Work Slide 3">
+                    </div>
+                    <div class="work-modal-buttons">
+                        <a href="https://github.com/brand-building-live" target="_blank" class="work-modal-btn">Live
+                            Preview</a>
+                        <a href="https://github.com/brand-building-source" target="_blank" class="work-modal-btn">View
+                            Source Code</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="work-modal" id="work-modal-major-work-project">
+            <div class="work-modal-content">
+                <span class="work-modal-close" onclick="workCloseModal('work-modal-major-work-project')">×</span>
+                <h2 class="work-modal-title">Major Work Project</h2>
+                <div class="work-modal-container-1">
+                    <img src="https://via.placeholder.com/280x200" alt="Major Work Project" class="work-modal-image">
+                    <div class="work-modal-description">
+                        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut
+                            labore et dolore.</p>
+                        <ul>
+                            <li>Process optimization</li>
+                            <li>Experimental analysis</li>
+                            <li>Data-driven solutions</li>
+                            <li>Scalable design</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="work-modal-container-2">
+                    <div class="work-slideshow">
+                        <img src="https://via.placeholder.com/800x200/FF0000" alt="Work Slide 1">
+                        <img src="https://via.placeholder.com/800x200/00FF00" alt="Work Slide 2">
+                        <img src="https://via.placeholder.com/800x200/0000FF" alt="Work Slide 3">
+                    </div>
+                    <div class="work-modal-buttons">
+                        <a href="https://github.com/major-project-live" target="_blank" class="work-modal-btn">Live
+                            Preview</a>
+                        <a href="https://github.com/major-project-source" target="_blank" class="work-modal-btn">View
+                            Source Code</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="work-modal" id="work-modal-major-work-project-2">
+            <div class="work-modal-content">
+                <span class="work-modal-close" onclick="workCloseModal('work-modal-major-work-project-2')">×</span>
+                <h2 class="work-modal-title">Major Work Project 2</h2>
+                <div class="work-modal-container-1">
+                    <img src="https://via.placeholder.com/280x200" alt="Major Work Project 2" class="work-modal-image">
+                    <div class="work-modal-description">
+                        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut
+                            labore et dolore.</p>
+                        <ul>
+                            <li>Simulation modeling</li>
+                            <li>Material testing</li>
+                            <li>Efficiency enhancements</li>
+                            <li>Process scalability</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="work-modal-container-2">
+                    <div class="work-slideshow">
+                        <img src="https://via.placeholder.com/800x200/FF0000" alt="Work Slide 1">
+                        <img src="https://via.placeholder.com/800x200/00FF00" alt="Work Slide 2">
+                        <img src="https://via.placeholder.com/800x200/0000FF" alt="Work Slide 3">
+                    </div>
+                    <div class="work-modal-buttons">
+                        <a href="https://github.com/major-project-2-live" target="_blank" class="work-modal-btn">Live
+                            Preview</a>
+                        <a href="https://github.com/major-project-2-source" target="_blank" class="work-modal-btn">View
+                            Source Code</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="work-modal" id="work-modal-business-analyst">
+            <div class="work-modal-content">
+                <span class="work-modal-close" onclick="workCloseModal('work-modal-business-analyst')">×</span>
+                <h2 class="work-modal-title">Business Analyst</h2>
+                <div class="work-modal-container-1">
+                    <img src="https://via.placeholder.com/280x200" alt="Business Analyst" class="work-modal-image">
+                    <div class="work-modal-description">
+                        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut
+                            labore et dolore.</p>
+                        <ul>
+                            <li>Financial forecasting</li>
+                            <li>Market research</li>
+                            <li>Risk management</li>
+                            <li>Strategic planning</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="work-modal-container-2">
+                    <div class="work-slideshow">
+                        <img src="https://via.placeholder.com/800x200/FF0000" alt="Work Slide 1">
+                        <img src="https://via.placeholder.com/800x200/00FF00" alt="Work Slide 2">
+                        <img src="https://via.placeholder.com/800x200/0000FF" alt="Work Slide 3">
+                    </div>
+                    <div class="work-modal-buttons">
+                        <a href="https://github.com/business-analyst-live" target="_blank" class="work-modal-btn">Live
+                            Preview</a>
+                        <a href="https://github.com/business-analyst-source" target="_blank" class="work-modal-btn">View
+                            Source Code</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="work-modal" id="work-modal-business-analyst-2">
+            <div class="work-modal-content">
+                <span class="work-modal-close" onclick="workCloseModal('work-modal-business-analyst-2')">×</span>
+                <h2 class="work-modal-title">Business Analyst 2</h2>
+                <div class="work-modal-container-1">
+                    <img src="https://via.placeholder.com/280x200" alt="Business Analyst 2" class="work-modal-image">
+                    <div class="work-modal-description">
+                        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut
+                            labore et dolore.</p>
+                        <ul>
+                            <li>Data analysis</li>
+                            <li>Stakeholder collaboration</li>
+                            <li>Performance tracking</li>
+                            <li>Business optimization</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="work-modal-container-2">
+                    <div class="work-slideshow">
+                        <img src="https://via.placeholder.com/800x200/FF0000" alt="Work Slide 1">
+                        <img src="https://via.placeholder.com/800x200/00FF00" alt="Work Slide 2">
+                        <img src="https://via.placeholder.com/800x200/0000FF" alt="Work Slide 3">
+                    </div>
+                    <div class="work-modal-buttons">
+                        <a href="https://github.com/business-analyst-2-live" target="_blank" class="work-modal-btn">Live
+                            Preview</a>
+                        <a href="https://github.com/business-analyst-2-source" target="_blank"
+                            class="work-modal-btn">View Source Code</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="work-modal" id="work-modal-data-scientist">
+            <div class="work-modal-content">
+                <span class="work-modal-close" onclick="workCloseModal('work-modal-data-scientist')">×</span>
+                <h2 class="work-modal-title">Data Scientist</h2>
+                <div class="work-modal-container-1">
+                    <img src="https://via.placeholder.com/280x200" alt="Data Scientist" class="work-modal-image">
+                    <div class="work-modal-description">
+                        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut
+                            labore et dolore.</p>
+                        <ul>
+                            <li>Machine learning algorithms</li>
+                            <li>Data visualization tools</li>
+                            <li>Statistical modeling</li>
+                            <li>Predictive analytics</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="work-modal-container-2">
+                    <div class="work-slideshow">
+                        <img src="https://via.placeholder.com/800x200/FF0000" alt="Work Slide 1">
+                        <img src="https://via.placeholder.com/800x200/00FF00" alt="Work Slide 2">
+                        <img src="https://via.placeholder.com/800x200/0000FF" alt="Work Slide 3">
+                    </div>
+                    <div class="work-modal-buttons">
+                        <a href="https://github.com/data-scientist-live" target="_blank" class="work-modal-btn">Live
+                            Preview</a>
+                        <a href="https://github.com/data-scientist-source" target="_blank" class="work-modal-btn">View
+                            Source Code</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="work-modal" id="work-modal-java-work-projects">
+            <div class="work-modal-content">
+                <span class="work-modal-close" onclick="workCloseModal('work-modal-java-work-projects')">×</span>
+                <h2 class="work-modal-title">Java Work Projects</h2>
+                <div class="work-modal-container-1">
+                    <img src="https://via.placeholder.com/280x200" alt="Java Work Projects" class="work-modal-image">
+                    <div class="work-modal-description">
+                        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut
+                            labore et dolore.</p>
+                        <ul>
+                            <li>Java application development</li>
+                            <li>API integration</li>
+                            <li>Code performance tuning</li>
+                            <li>Database connectivity</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="work-modal-container-2">
+                    <div class="work-slideshow">
+                        <img src="https://via.placeholder.com/800x200/FF0000" alt="Work Slide 1">
+                        <img src="https://via.placeholder.com/800x200/00FF00" alt="Work Slide 2">
+                        <img src="https://via.placeholder.com/800x200/0000FF" alt="Work Slide 3">
+                    </div>
+                    <div class="work-modal-buttons">
+                        <a href="https://github.com/java-projects-live" target="_blank" class="work-modal-btn">Live
+                            Preview</a>
+                        <a href="https://github.com/java-projects-source" target="_blank" class="work-modal-btn">View
+                            Source Code</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let workCurrentFilter = 'Web';
+
+        function workFilterCards(filter) {
+            workCurrentFilter = filter;
+            const workCards = document.querySelectorAll('.work-card');
+            const workFilterItems = document.querySelectorAll('.work-filter-item');
+            const workGridContainer = document.querySelector('.work-grid-container');
+            const workScrollNav = document.querySelector('.work-scroll-nav');
+            const isSmallScreen = window.innerWidth <= 768;
+
+            workFilterItems.forEach(item => {
+                item.classList.remove('work-active-work');
+                if (item.getAttribute('data-filter') === filter) {
+                    item.classList.add('work-active-work');
+                }
+            });
+
+            let visibleCardCount = 0;
+            workCards.forEach(workCard => {
+                const isMatch = filter === 'All' ? true : workCard.classList.contains(`work-mix-${filter}`);
+                workCard.style.display = isMatch ? 'block' : 'none';
+                if (isMatch) visibleCardCount++;
+            });
+
+            workGridContainer.classList.remove('work-center-cards');
+            if (!isSmallScreen) {
+                if (visibleCardCount >= 3) {
+                    workGridContainer.style.width = '750px';
+                    workGridContainer.style.overflowX = 'auto';
+                    workScrollNav.style.display = 'flex';
+                } else {
+                    workGridContainer.classList.add('work-center-cards');
+                    workScrollNav.style.display = 'none';
+                }
+            } else {
+                if (visibleCardCount > 1) {
+                    workGridContainer.style.width = '362px';
+                    workGridContainer.style.overflowX = 'auto';
+                    workScrollNav.style.display = 'flex';
+                } else {
+                    workGridContainer.classList.add('work-center-cards');
+                    workScrollNav.style.display = 'flex';
+                }
+            }
+
+            workGridContainer.scrollLeft = 0;
+        }
+
+        function workScrollCards(direction) {
+            const workGridContainer = document.querySelector('.work-grid-container');
+            const cardWidth = 332;
+            const currentScroll = workGridContainer.scrollLeft;
+            const maxScroll = workGridContainer.scrollWidth - workGridContainer.clientWidth;
+
+            if (direction === 'left' && currentScroll > 0) {
+                workGridContainer.scrollLeft -= cardWidth;
+            } else if (direction === 'right' && currentScroll < maxScroll) {
+                workGridContainer.scrollLeft += cardWidth;
+            }
+        }
+
+        function workOpenModal(workModalId) {
+            workCloseAllModals();
+            const workModal = document.getElementById(workModalId);
+            if (workModal) {
+                console.log(`Opening modal: ${workModalId}`);
+                workModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            } else {
+                console.error(`Modal with ID ${workModalId} not found`);
+            }
+        }
+
+        function workCloseModal(workModalId) {
+            const workModal = document.getElementById(workModalId);
+            if (workModal) {
+                workModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function workCloseAllModals() {
+            document.querySelectorAll('.work-modal').forEach(modal => {
+                modal.style.display = 'none';
+            });
+            document.body.style.overflow = 'auto';
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                workCloseAllModals();
+            }
+        });
+
+        document.querySelectorAll('.work-modal').forEach(modal => {
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+
+        document.querySelectorAll('.work-filter-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const filter = item.getAttribute('data-filter');
+                workFilterCards(filter);
+                document.querySelector('.work-filter-select').value = filter;
+            });
+        });
+
+        window.addEventListener('load', () => {
+            workFilterCards('Web');
+        });
+
+        window.addEventListener('resize', () => {
+            workFilterCards(workCurrentFilter);
+        });
+    </script>
+</body>
+
+</html>
