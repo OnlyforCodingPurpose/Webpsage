@@ -1,0 +1,351 @@
+.experience-container {
+    max-width: 1100px;
+    width: 100%;
+    margin: auto;
+    padding: 30px 15px 60px 15px;
+    /* Reduced top padding for first section */
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-title h2 {
+    font-size: 36px;
+    color: var(--text-black-900);
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title h2::before {
+    content: '';
+    height: 4px;
+    width: 50px;
+    background-color: var(--skin-color);
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.section-title h2::after {
+    content: '';
+    height: 4px;
+    width: 25px;
+    background-color: var(--skin-color);
+    position: absolute;
+    bottom: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.experience-section {
+    margin-bottom: 60px;
+}
+
+.experience-section:first-of-type {
+    padding-top: 30px;
+    /* Reduced top padding for On Site Experience */
+}
+
+.experience-scroll {
+    display: flex;
+    overflow-x: auto;
+    /* Enable horizontal scrollbar */
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    gap: 20px;
+    position: relative;
+    white-space: nowrap;
+    padding-bottom: 10px;
+    /* Space for scrollbar */
+}
+
+/* Custom Scrollbar Styling */
+.experience-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+
+.experience-scroll::-webkit-scrollbar-track {
+    background: var(--bg-black-50);
+    border-radius: 4px;
+}
+
+.experience-scroll::-webkit-scrollbar-thumb {
+    background: var(--skin-color);
+    border-radius: 4px;
+}
+
+.experience-scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--skin-color);
+}
+
+.experience-box {
+    flex: 0 0 360px;
+    background-color: var(--bg-black-100);
+    border: 1px solid var(--bg-black-50);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    scroll-snap-align: start;
+}
+
+.experience-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px var(--box-shadow-color);
+}
+
+.experience-box h4,
+.experience-box h5 {
+    font-size: 18px;
+    color: var(--exp-box);
+    margin-bottom: 10px;
+}
+
+.experience-box p {
+    font-size: 14px;
+    /* color:var(--edu-box); */
+    font-weight: 400;
+    margin-bottom: 15px;
+}
+
+.know-more-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--skin-color);
+    color: white;
+    border-radius: 20px;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.know-more-btn:hover {
+    background-color: var(--hover-color);
+    transform: scale(1.05);
+}
+
+.scroll-buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.scroll-btn {
+    background-color: var(--bg-black-50);
+    color: var(--skin-color);
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 16px;
+    margin: 0 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.scroll-btn i {
+    color: var(--skin-color);
+    transition: color 0.3s ease;
+}
+
+.scroll-btn:hover,
+.scroll-btn:active {
+    background-color: var(--skin-color);
+}
+
+.scroll-btn:hover i,
+.scroll-btn:active i {
+    color: var(--hover-color);
+}
+
+.scroll-btn:disabled {
+    background-color: var(--bg-black-50);
+    cursor: not-allowed;
+}
+
+.scroll-btn:disabled i {
+    color: var(--text-black-700);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(59, 57, 57, 0.5);
+    overflow: auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: var(--bg-black-100);
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 0 20px var(--box-shadow-color);
+    position: relative;
+    margin: 5% auto;
+}
+
+.sub-modal .modal-content {
+    max-width: 400px;
+    /* Smaller size for sub-modals */
+    max-height: 60vh;
+    /* Smaller height for sub-modals */
+    position: relative;
+    overflow: hidden;
+    /* Hide overflow for slideshow */
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: var(--text-black-900);
+    z-index: 10;
+    /* Ensure close button is above content */
+}
+
+.close-btn:hover {
+    color: var(--skin-color);
+}
+
+.modal-content h3 {
+    font-size: 20px;
+    color: var(--text-black-900);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.container-1 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.container-1 img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+
+.container-1 .content {
+    flex: 1;
+}
+
+.container-1 .content h4 {
+    font-size: 16px;
+    color: var(--text-black-900);
+    margin-bottom: 10px;
+}
+
+.container-1 .content ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+.container-1 .content ul li {
+    font-size: 14px;
+    color: var(--text-black-700);
+    margin-bottom: 5px;
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.option-btn {
+    padding: 10px;
+    background-color: var(--skin-color);
+    color: white;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.option-btn:hover {
+    background-color: var(--hover-color);
+}
+
+.container-2 {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    /* Fixed height for slideshow */
+    overflow: hidden;
+}
+
+.imageCarousel {
+    display: flex;
+    transition: transform 0.5s ease;
+    width: 100%;
+    height: 100%;
+}
+
+.carouselImage {
+    min-width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.sub-modal .imageCarousel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.sub-modal .modal-content ul {
+    position: relative;
+    z-index: 2;
+    background-color: rgba(43, 35, 35, 0.13);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+@media (max-width: 767px) {
+    .experience-box {
+        flex: 0 0 300px;
+    }
+
+    .container-1 {
+        flex-direction: column;
+    }
+
+    .container-1 img {
+        width: 100%;
+        /* Full width on mobile */
+        height: 150px;
+        /* Maintain fixed height */
+        margin-bottom: 20px;
+        margin-right: 0;
+    }
+
+    .modal-content {
+        max-width: 90%;
+        /* Slightly smaller on mobile */
+    }
+
+    .sub-modal .modal-content {
+        max-width: 80%;
+        /* Slightly smaller for sub-modals on mobile */
+    }
+}
